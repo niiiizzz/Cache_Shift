@@ -1,0 +1,14 @@
+target/
+**/target/
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+*.class
+*.log
+*.txt
+*.bat
+MinTest.java
+.DS_Store
+.idea/
+*.iml

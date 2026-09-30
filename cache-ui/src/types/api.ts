@@ -1,6 +1,7 @@
 export type Policy = 'LRU' | 'LFU';
 export type Pattern = 'ZIPFIAN' | 'SEQUENTIAL_SCAN' | 'UNIFORM' | 'HOT_SET_SHIFT';
 export type Status = 'IDLE' | 'RUNNING' | 'DONE' | 'STOPPED' | 'FAILED';
+export type AppStatus = Status;
 
 export interface RunConfig {
   policy: Policy;
