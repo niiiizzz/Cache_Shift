@@ -35,7 +35,7 @@ Open `http://localhost:5173` in your browser.
 ```mermaid
 graph TD
     UI["React Dashboard (Vite + Tailwind + Recharts)"] -->|REST API: /api/runs| SVR["Spring Boot Simulation Server"]
-    SVR -->|SSE Stream: /api/runs/{id}/stream| UI
+    SVR -->|"SSE Stream: /api/runs/{id}/stream"| UI
     
     subgraph cacheServer ["cache-server"]
         SVR --> RM["RunManager"]
