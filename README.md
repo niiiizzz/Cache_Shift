@@ -34,25 +34,25 @@ Open `http://localhost:5173` in your browser.
 
 ```mermaid
 graph TD
-    UI[React Dashboard (Vite + Tailwind + Recharts)] -->|REST API: /api/runs| SVR[Spring Boot Simulation Server]
+    UI["React Dashboard (Vite + Tailwind + Recharts)"] -->|REST API: /api/runs| SVR["Spring Boot Simulation Server"]
     SVR -->|SSE Stream: /api/runs/{id}/stream| UI
     
-    subgraph "cache-server"
-        SVR --> RM[RunManager]
-        RM --> R[Simulation Run]
-        R --> TG[TraceGenerator]
-        R --> WP[Worker Thread Pool (1..64)]
-        R --> SMP[Metrics Sampler (200ms daemon)]
+    subgraph cacheServer ["cache-server"]
+        SVR --> RM["RunManager"]
+        RM --> R["Simulation Run"]
+        R --> TG["TraceGenerator"]
+        R --> WP["Worker Thread Pool (1..64)"]
+        R --> SMP["Metrics Sampler (200ms daemon)"]
     end
 
-    subgraph "cache-core (Pure JDK 17)"
-        WP --> C[Cache<K,V>]
-        C --> L[ReentrantLock]
-        C --> M[ConcurrentHashMap Index]
-        C --> P{EvictionPolicy}
-        P --> LRU[LruPolicy (Doubly-Linked List)]
-        P --> LFU[LfuPolicy (Freq-Bucketed Sets)]
-        C --> ST[CacheStats (LongAdders)]
+    subgraph cacheCore ["cache-core (Pure JDK 17)"]
+        WP --> C["Cache"]
+        C --> L["ReentrantLock"]
+        C --> M["ConcurrentHashMap Index"]
+        C --> P{"EvictionPolicy"}
+        P --> LRU["LruPolicy (Doubly-Linked List)"]
+        P --> LFU["LfuPolicy (Freq-Bucketed Sets)"]
+        C --> ST["CacheStats (LongAdders)"]
         SMP -.->|Read Lock-Free| ST
     end
 ```
