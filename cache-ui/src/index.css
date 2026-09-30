@@ -1,0 +1,70 @@
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/inter/700.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #FAFAFA;
+  --surface: #FFFFFF;
+  --surface-muted: #F4F4F5;
+  --border: #E4E4E7;
+  --border-strong: #D4D4D8;
+  --text: #18181B;
+  --text-muted: #52525B;
+  --text-subtle: #71717A;
+  --accent: #4F46E5;
+  --accent-hover: #4338CA;
+  --accent-soft: #EEF2FF;
+  --on-accent: #FFFFFF;
+  --hit: #059669;
+  --hit-soft: #ECFDF5;
+  --miss: #E11D48;
+  --miss-soft: #FFF1F2;
+  --evict: #D97706;
+  --evict-soft: #FFFBEB;
+  --expire: #7C3AED;
+  --expire-soft: #F5F3FF;
+  --series-lru: #4F46E5;
+  --series-lfu: #0D9488;
+}
+
+.dark {
+  --bg: #09090B;
+  --surface: #111113;
+  --surface-muted: #18181B;
+  --border: #27272A;
+  --border-strong: #3F3F46;
+  --text: #FAFAFA;
+  --text-muted: #A1A1AA;
+  --text-subtle: #71717A;
+  --accent: #818CF8;
+  --accent-hover: #A5B4FC;
+  --accent-soft: #1E1B4B;
+  --on-accent: #09090B;
+  --hit: #34D399;
+  --hit-soft: #052E22;
+  --miss: #FB7185;
+  --miss-soft: #3B0A16;
+  --evict: #FBBF24;
+  --evict-soft: #3A2705;
+  --expire: #A78BFA;
+  --expire-soft: #1E1140;
+  --series-lru: #818CF8;
+  --series-lfu: #2DD4BF;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}

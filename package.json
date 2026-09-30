@@ -1,0 +1,10 @@
+{
+  "name": "cachelab",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix cache-ui run dev",
+    "build": "npm --prefix cache-ui run build",
+    "install:ui": "npm --prefix cache-ui install"
+  }
+}
