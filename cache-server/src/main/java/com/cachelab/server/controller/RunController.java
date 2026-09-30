@@ -59,7 +59,7 @@ public class RunController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/runs/{runId}")
+    @GetMapping(value = {"/runs/{runId}", "/runs/{runId}/latest"})
     public ResponseEntity<Sample> getRunSample(@PathVariable String runId) {
         Run run = runManager.getRun(runId);
         if (run == null) {
@@ -68,7 +68,7 @@ public class RunController {
         return ResponseEntity.ok(run.getLatestSample());
     }
 
-    @PostMapping("/compare")
+    @PostMapping({"/compare", "/runs/compare"})
     public ResponseEntity<CompareResponse> startCompare(@Valid @RequestBody CompareRequest request) {
         Map<String, String> runIds = runManager.startCompare(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CompareResponse(runIds));

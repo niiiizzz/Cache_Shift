@@ -2,26 +2,29 @@ import { RunConfig, Sample, StartRunResponse, CompareResponse } from '../types/a
 
 const BASE = '/api';
 
-async function post<T>(path: string, body: unknown): Promise<T> {
+async function post<T>(path: string, body?: unknown): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(body),
+    body: body !== undefined ? JSON.stringify(body) : undefined,
   });
-  const json = await res.json();
-  if (!res.ok) {
-    throw new Error((json as { error?: string }).error ?? `HTTP ${res.status}`);
-  }
-  return json as T;
-}
 
-async function del<T>(path: string): Promise<T> {
-  const res = await fetch(`${BASE}${path}`, { method: 'DELETE' });
-  if (!res.ok) {
-    const json = await res.json().catch(() => ({}));
-    throw new Error((json as { error?: string }).error ?? `HTTP ${res.status}`);
+  const text = await res.text();
+  let json: Record<string, unknown> = {};
+  try {
+    json = text ? JSON.parse(text) : {};
+  } catch {
+    if (!res.ok) {
+      throw new Error(`Server returned HTTP ${res.status}: ${text || res.statusText}`);
+    }
   }
-  return res.json() as Promise<T>;
+
+  if (!res.ok) {
+    const errMsg = (json as { error?: string }).error || (json as { message?: string }).message || `HTTP ${res.status} (${res.statusText})`;
+    throw new Error(errMsg);
+  }
+
+  return json as T;
 }
 
 export function startRun(config: RunConfig): Promise<StartRunResponse> {
@@ -29,7 +32,7 @@ export function startRun(config: RunConfig): Promise<StartRunResponse> {
 }
 
 export function stopRun(runId: string): Promise<void> {
-  return del<void>(`/runs/${runId}`);
+  return post<void>(`/runs/${runId}/stop`);
 }
 
 export interface CompareRequest {
@@ -46,11 +49,17 @@ export interface CompareRequest {
 }
 
 export function startCompare(req: CompareRequest): Promise<CompareResponse> {
-  return post<CompareResponse>('/runs/compare', req);
+  return post<CompareResponse>('/compare', req);
 }
 
 export async function getLatestSample(runId: string): Promise<Sample | null> {
-  const res = await fetch(`${BASE}/runs/${runId}/latest`);
+  const res = await fetch(`${BASE}/runs/${runId}`);
   if (res.status === 404) return null;
-  return res.json() as Promise<Sample>;
+  const text = await res.text();
+  if (!text) return null;
+  try {
+    return JSON.parse(text) as Sample;
+  } catch {
+    return null;
+  }
 }

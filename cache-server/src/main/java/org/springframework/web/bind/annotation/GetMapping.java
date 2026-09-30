@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface GetMapping {
-    String value() default "";
+    String[] value() default {};
     String[] path() default {};
     String produces() default "";
 }

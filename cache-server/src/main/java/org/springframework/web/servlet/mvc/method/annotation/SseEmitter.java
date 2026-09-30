@@ -26,8 +26,16 @@ public class SseEmitter {
         this.onError = callback;
     }
 
+    private Consumer<SseEventBuilder> handler;
+
+    public void setHandler(Consumer<SseEventBuilder> handler) {
+        this.handler = handler;
+    }
+
     public void send(SseEventBuilder builder) throws IOException {
-        // In real Spring Boot, writes to response stream
+        if (handler != null) {
+            handler.accept(builder);
+        }
     }
 
     public void complete() {
